@@ -29,6 +29,10 @@ DATABASES = {
 
 Then you will need to run migrations `python manage.py migrate`
 
+#### Edit the file .env.example to .env with your smtp accounts
+
+`USER_MAIL_PASSWORD = "Here you must enter the password of the smtp account to use"`
+
 #### Create superuser
 
 Go to the console and run `python manage.py createsuperuser`
