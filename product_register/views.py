@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from .forms import ProductForm, LoginForm
 from .models import Product
-from .services import send_notification, save_actions, disable_form_if_needed
+from .services import send_notification, save_actions, disable_form_if_needed, send_email
 
 # Create your views here.
 
@@ -56,7 +56,7 @@ def form(request, id=0):
             else:
                 product = Product.objects.get(pk=id)
                 form = ProductForm(request.POST, instance=product)
-
+                send_email(user, product, form)
                 send_notification('update', user, product)
             if form.is_valid:
                 form.save()

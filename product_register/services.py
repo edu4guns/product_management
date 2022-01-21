@@ -1,4 +1,8 @@
 from .models import Notification, ProductActionLog
+from django.shortcuts import render
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 
 def send_notification(action, user, product):
@@ -20,3 +24,21 @@ def disable_form_if_needed(form, user):
         form.fields["name"].disabled = True
         form.fields["price"].disabled = True
         form.fields["brand"].disabled = True
+
+
+def send_email(user, product, form):
+    mail = user.email
+    new_price = form['price'].value()
+    context = {'mail': mail, 'product': product.name,
+               'price': product.price, 'new_price': new_price}
+    template = get_template('correo.html')
+    content = template.render(context)
+
+    email = EmailMultiAlternatives(
+        'Updated Product',
+        'Zebrands',
+        settings.EMAIL_HOST_USER,
+        [mail],
+    )
+    email.attach_alternative(content, 'text/html')
+    email.send()

@@ -38,6 +38,7 @@ Go to the console and run `python manage.py createsuperuser`
 ```
 $ pip install psycopg2
 $ pip install django-crispy-forms
+$ pip install python-decouple
 ```
 
 ### Run project
